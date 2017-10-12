@@ -3,20 +3,23 @@ package caffeinateme;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import net.thucydides.core.annotations.Steps;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 
 public class OrderCoffeeSteps {
 
-    Customer cathy = new Customer();
-    Barrista barry = new Barrista();
+    @Steps
+    Customer cathy;
+
+    @Steps
+    Barista barry;
 
     String cathysOrder;
 
-    @Given("(.*) is (\\d+) meters? from the coffee shop")
+    @Given("(.*) is (\\d+) metres? from the coffee shop")
     public void cathy_is_n_meters_from_the_coffee_shop(String name, int distanceInMeters) throws Throwable {
-        System.out.println("Meters = " + distanceInMeters);
         cathy.setDistanceFromShop(distanceInMeters);
     }
 

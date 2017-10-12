@@ -3,7 +3,7 @@ package caffeinateme;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Barrista {
+public class Barista {
     public List<String> getPendingOrders() {
         List<String> results = new ArrayList<>();
         results.add("large cappuccino");
