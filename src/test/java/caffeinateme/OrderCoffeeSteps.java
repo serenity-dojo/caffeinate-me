@@ -13,7 +13,7 @@ public class OrderCoffeeSteps {
     @Steps
     Customer cathy;
 
-    @Steps(shared = true)
+    @Steps
     Barista barry;
 
     String cathysOrder;
