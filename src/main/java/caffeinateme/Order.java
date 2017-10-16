@@ -1,49 +1,51 @@
 package caffeinateme;
 
 public class Order {
-
-    private final long clientId;
+    private final long customerId;
     private final int quantity;
     private final String product;
-    private OrderPriority priority;
 
-    public Order(long clientId, int quantity, String product) {
-        this.clientId = clientId;
+    public Order(long customerId, int quantity, String product) {
+
+        this.customerId = customerId;
         this.quantity = quantity;
         this.product = product;
-        this.priority = OrderPriority.Normal;
-    }
-
-    public long getClientId() {
-        return clientId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public OrderPriority getPriority() {
-        return priority;
     }
 
     public OrderReceipt getReceipt() {
-        return new OrderReceipt(clientId, quantity, product);
+        return new OrderReceipt(customerId, quantity, product);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Order order = (Order) o;
+
+        if (customerId != order.customerId) return false;
+        if (quantity != order.quantity) return false;
+        return product != null ? product.equals(order.product) : order.product == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (customerId ^ (customerId >>> 32));
+        result = 31 * result + quantity;
+        result = 31 * result + (product != null ? product.hashCode() : 0);
+        return result;
     }
 
     @Override
     public String toString() {
         return "Order{" +
-                "clientId=" + clientId +
+                "customerId=" + customerId +
                 ", quantity=" + quantity +
                 ", product='" + product + '\'' +
                 '}';
     }
 
-    public static Order matchingReceipt(OrderReceipt orderReceipt) {
-        return new Order(orderReceipt.getClientId(), orderReceipt.getQuanity(), orderReceipt.getProduct());
+    public static Order matching(OrderReceipt orderReceipt) {
+        return new Order(orderReceipt.getCustomerId(), orderReceipt.getQuantity(), orderReceipt.getProduct());
     }
 }

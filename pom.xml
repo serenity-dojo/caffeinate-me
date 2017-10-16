@@ -7,7 +7,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <product>Caffeinate Me Application</product>
+    <name>Caffeinate Me Application</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,7 +26,7 @@
                 <enabled>false</enabled>
             </snapshots>
             <id>central</id>
-            <product>bintray</product>
+            <name>bintray</name>
             <url>http://jcenter.bintray.com</url>
         </repository>
     </repositories>
@@ -36,7 +36,7 @@
                 <enabled>false</enabled>
             </snapshots>
             <id>central</id>
-            <product>bintray-plugins</product>
+            <name>bintray-plugins</name>
             <url>http://jcenter.bintray.com</url>
         </pluginRepository>
     </pluginRepositories>
