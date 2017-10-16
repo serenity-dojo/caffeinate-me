@@ -1,42 +1,40 @@
 package caffeinateme;
 
+import caffeinateme.steps.Barista;
+import caffeinateme.steps.Customer;
+import caffeinateme.steps.CustomerRegistrationClient;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import net.thucydides.core.annotations.Steps;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
 
 public class OrderCoffeeSteps {
 
     @Steps
-    Customer cathy;
+    Customer customer;
 
-    @Steps(shared = true)
+    @Steps
     Barista barry;
 
-    String cathysOrder;
+    OrderReceipt orderReceipt;
 
-    @Given("(.*) is (\\d+) metres? from the coffee shop")
-    public void cathy_is_n_meters_from_the_coffee_shop(String name, int distanceInMeters) throws Throwable {
-        cathy.notifyDistanceFromShop(distanceInMeters);
+    @Steps(shared = true)
+    CustomerRegistrationClient customerRegistrations;
+
+    @Given("(.*) has a Caffeinate-Me account")
+    public void hasACaffeinateMeAccount(String name) {
+        customer.isCalled(name);
+        customerRegistrations.registerCustomer(customer);
     }
 
-    @When("Cathy (?:orders|has ordered) a (.*)$")
-    public void cathy_orders_a(String order) throws Throwable {
-        cathysOrder = order;
-        cathy.placesOrderFor(cathysOrder);
+    @When("s?he (?:orders|has ordered) a (.*)$")
+    public void orders_a(String order) throws Throwable {
+        orderReceipt = customer.placesOrderFor(1, order);
     }
 
     @Then("Barry should receive the order$")
     public void barry_should_receive_the_order() throws Throwable {
-        barry.shouldHaveAPendingOrderFor(cathysOrder);
+        barry.shouldHaveAnOrderFor(orderReceipt);
     }
-
-    @Then("^Barry should know that the coffee is Urgent$")
-    public void barry_should_know_that_the_coffee_is_Urgent() throws Throwable {
-        assertThat(barry.getUrgentOrders(), hasItem(cathysOrder));
-    }
-
 }
