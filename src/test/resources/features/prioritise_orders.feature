@@ -7,7 +7,7 @@ Feature: Prioritise orders
     Then Sarah's order should have an urgency of <Urgency>
 
     Examples:
-      | ETA | Rule                      | Urgency |
-      | 12  | More than 10 minutes away | Normal  |
-      | 7   | Between 5 and 10 minutes  | High    |
-      | 3   | Less than 5 minutes       | Urgent  |
+      | Rule                      | ETA | Urgency |
+      | More than 10 minutes away | 12  | Normal  |
+      | Between 5 and 10 minutes  | 7   | High    |
+      | Less than 5 minutes       | 3   | Urgent  |
