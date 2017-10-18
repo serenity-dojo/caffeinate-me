@@ -27,6 +27,6 @@ public class Customer extends ScenarioActor {
 
     @Step("#actor updates her ETA to {0}")
     public void updatesHerETATo(int minutesAway) {
-
+        coffeeOrders.updateCustomerEta(customerId, minutesAway);
     }
 }
