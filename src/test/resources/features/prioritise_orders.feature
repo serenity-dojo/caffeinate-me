@@ -1,5 +1,8 @@
 Feature: Prioritise orders
 
+  Background:
+    Given Sarah has a Caffeinate-Me account
+
   Scenario Outline: Order urgency
     Given Sarah has ordered an espresso
     And Sarah is <ETA> minutes away from the shop

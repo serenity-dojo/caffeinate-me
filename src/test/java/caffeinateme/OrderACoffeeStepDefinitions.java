@@ -6,31 +6,26 @@ import caffeinateme.steps.UserRegistrationClient;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import net.serenitybdd.core.Serenity;
 import net.thucydides.core.annotations.Steps;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class OrderACoffeeStepDefinitions {
 
-    @Steps
-    UserRegistrationClient userRegistrations;
-
-    @Steps
-    Customer cathy;
+    @Steps(shared = true)
+    Customer customer;
 
     @Steps
     Barista barry;
 
-    @Given("Cathy has a Caffeinate-Me account")
-    public void userHasACaffeinateMeAccount() {
-        userRegistrations.registerUser(cathy);
-    }
-
     OrderReceipt orderReceipt;
 
-    @When("^s?he orders a (.*)$")
+    @When("^(?:.*) (?:orders|has ordered) an? (.*)$")
     public void sheOrdersA(String order) throws Throwable {
-        orderReceipt = cathy.placesAnOrderFor(1, order);
+        orderReceipt = customer.placesAnOrderFor(1, order);
+
+        Serenity.setSessionVariable("orderReceipt").to(orderReceipt);
     }
 
     @Then("^Barry should receive the order$")
