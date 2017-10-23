@@ -3,6 +3,8 @@ package caffeinateme;
 import caffeinateme.steps.Barista;
 import caffeinateme.steps.Customer;
 import caffeinateme.steps.ProductCatalog;
+import cucumber.api.DataTable;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -67,5 +69,10 @@ public class OrderACoffeeStepDefinitions {
     @And("^the following prices:$")
     public void theFollowingPrices(List<ProductPrice> productPrices) throws Throwable {
         productCatalog.addProductsWithPrices(productPrices);
+    }
+
+    @And("^the receipt should contain the line items:$")
+    public void theReceiptShouldContainTheLineItems(List<ReceiptLineItem> expectedLineItems) throws Throwable {
+        assertThat(receipt.getLineItems()).containsExactlyElementsOf(expectedLineItems);
     }
 }

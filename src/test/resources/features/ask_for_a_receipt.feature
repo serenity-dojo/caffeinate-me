@@ -12,8 +12,12 @@ Feature: Ask for a receipt
     Given Sarah has ordered:
       | Quantity | Product          |
       | 1        | large cappuccino |
-      | 1        | muffin           |
+      | 2        | muffin           |
     When she asks for a receipt
     Then she should receive a receipt totalling:
       | Subtotal | Service Fee | Total |
-      | 3.50     | 0.18        | 3.68  |
+      | 4.75     | 0.24        | 4.99  |
+    And the receipt should contain the line items:
+      | Product          | Quantity | Price |
+      | large cappuccino | 1        | 2.25  |
+      | muffin           | 2        | 2.50  |
