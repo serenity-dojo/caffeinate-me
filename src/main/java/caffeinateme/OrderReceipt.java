@@ -1,32 +1,26 @@
 package caffeinateme;
 
 public class OrderReceipt {
-
-    private final long clientId;
-    private final int quanity;
+    private final long customerId;
+    private final int quantity;
     private final String product;
 
-    public OrderReceipt(long clientId, int quanity, String product) {
-        this.clientId = clientId;
-        this.quanity = quanity;
+    public OrderReceipt(long customerId, int quantity, String product) {
+        this.customerId = customerId;
+        this.quantity = quantity;
         this.product = product;
     }
 
-    public long getClientId() {
-        return clientId;
+    public long getCustomerId() {
+        return customerId;
     }
 
-    public int getQuanity() {
-        return quanity;
+    public int getQuantity() {
+        return quantity;
     }
 
     public String getProduct() {
         return product;
-    }
-
-    @Override
-    public String toString() {
-        return "an order for " + quanity + " " + product + " for client number " + clientId;
     }
 
     @Override
@@ -36,16 +30,25 @@ public class OrderReceipt {
 
         OrderReceipt that = (OrderReceipt) o;
 
-        if (clientId != that.clientId) return false;
-        if (quanity != that.quanity) return false;
+        if (customerId != that.customerId) return false;
+        if (quantity != that.quantity) return false;
         return product != null ? product.equals(that.product) : that.product == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (clientId ^ (clientId >>> 32));
-        result = 31 * result + quanity;
+        int result = (int) (customerId ^ (customerId >>> 32));
+        result = 31 * result + quantity;
         result = 31 * result + (product != null ? product.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderReceipt{" +
+                "customerId=" + customerId +
+                ", quantity=" + quantity +
+                ", product='" + product + '\'' +
+                '}';
     }
 }
