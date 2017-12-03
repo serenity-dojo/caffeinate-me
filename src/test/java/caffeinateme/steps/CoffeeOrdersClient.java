@@ -3,12 +3,14 @@ package caffeinateme.steps;
 import caffeinateme.Order;
 import caffeinateme.OrderReceipt;
 import caffeinateme.Receipt;
+import caffeinateme.ReceiptLineItem;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.Steps;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CoffeeOrdersClient {
 
@@ -31,8 +33,8 @@ public class CoffeeOrdersClient {
 
     @Step("Notify updated ETA for customer {0} who is {1} minutes away from the shop")
     public void updateCustomerEta(long customerId, int minutesAway) {
-        orders.stream().filter( order -> order.getCustomerId() == customerId)
-                       .forEach( order -> order.updateETATo(minutesAway));
+        orders.stream().filter(order -> order.getCustomerId() == customerId)
+                .forEach(order -> order.updateETATo(minutesAway));
     }
 
     public Receipt getReceiptFor(long customerId) {
@@ -41,11 +43,18 @@ public class CoffeeOrdersClient {
                 .mapToDouble(this::subtotalFor)
                 .sum();
 
-        double serviceFee = subTotal * 5 /100;
+        List<ReceiptLineItem> lineItems = orders.stream()
+                .filter(order -> order.getCustomerId() == customerId)
+                .map(order -> new ReceiptLineItem(order.getProduct(), order.getQuantity(), subtotalFor(order)))
+                .collect(Collectors.toList());
+
+
+        double serviceFee = subTotal * 5 / 100;
         double total = subTotal + serviceFee;
         return new Receipt(roundedTo2DecimalPlaces(subTotal),
-                           roundedTo2DecimalPlaces(serviceFee),
-                           roundedTo2DecimalPlaces(total));
+                roundedTo2DecimalPlaces(serviceFee),
+                roundedTo2DecimalPlaces(total),
+                lineItems);
     }
 
     private double roundedTo2DecimalPlaces(double value) {
