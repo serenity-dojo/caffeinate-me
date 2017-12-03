@@ -1,5 +1,5 @@
 package caffeinateme;
 
-public enum OrderPriority {
+public enum Urgency {
     Normal, High, Urgent
 }
