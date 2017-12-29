@@ -1,5 +1,7 @@
 package caffeinateme;
 
+import net.thucydides.core.annotations.Step;
+
 public class Customer {
     private int distanceFromShop;
 
