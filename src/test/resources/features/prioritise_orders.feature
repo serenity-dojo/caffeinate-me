@@ -1,5 +1,8 @@
 Feature: Prioritise orders
 
+  Orders are prioritised by nearby customers.
+  This lets the barrista know when he or she needs to start preparing the next coffee.
+
   Background:
     Given Sarah has a Caffeinate-Me account
 

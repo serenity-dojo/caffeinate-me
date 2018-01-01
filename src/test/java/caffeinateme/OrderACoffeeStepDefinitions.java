@@ -43,7 +43,6 @@ public class OrderACoffeeStepDefinitions {
 
     @Given("^Sarah has ordered:$")
     public void sarahHasOrdered(List<OrderItem> orders) throws Throwable {
-        System.out.println("Orders: " + orders);
         orders.forEach(
                 order -> {
                     customer.placesAnOrderFor(order.getQuantity(),
