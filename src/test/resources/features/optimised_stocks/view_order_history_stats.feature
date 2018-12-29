@@ -1,3 +1,4 @@
+@Backend:OrderHistory
 Feature: View order history stats
 
   Barry needs to see what sorts of drinks his customers order, so that he can plan his stocks better.

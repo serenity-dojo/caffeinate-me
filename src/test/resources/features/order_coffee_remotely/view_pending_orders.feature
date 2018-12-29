@@ -1,9 +1,10 @@
+@Backend:PendingOrders
 Feature: View pending orders
 
   Barry needs to see the orders that his customers have placed.
 
   Background:
-    Given Barry is a barrista
+    Given Barry is a barista
     And Sarah is a registered customer
     And Joe is a registered customer
 

@@ -1,7 +1,8 @@
+@Frontend:CompletingOrder
 Feature: Completing orders
 
   Background:
-    Given Barry is a barrista
+    Given Barry is a barista
     And Sarah is a registered customer
 
   Scenario: Barry delivers a completed order

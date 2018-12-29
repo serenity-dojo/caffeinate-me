@@ -1,3 +1,4 @@
+@Frontend:AskForReceipt
 Feature: Ask for a receipt
 
   Background:

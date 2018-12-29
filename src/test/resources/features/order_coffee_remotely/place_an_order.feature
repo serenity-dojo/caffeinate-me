@@ -1,3 +1,5 @@
+@Frontend:PlaceAnOrder
+@Backend:PlaceAnOrder
 Feature: Place an order
 
   In order to save time when I pick up my morning coffee
