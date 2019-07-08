@@ -36,8 +36,8 @@ public class OrderACoffeeStepDefinitions {
         Serenity.setSessionVariable("orderReceipt").to(orderReceipt);
     }
 
-    @Then("^Barry should receive the order$")
-    public void barryShouldReceiveTheOrder() throws Throwable {
+    @Then("^(.*) should receive the order$")
+    public void barryShouldReceiveTheOrder(String user) throws Throwable {
         assertThat(barry.pendingOrders()).contains(Order.matching(orderReceipt));
     }
 

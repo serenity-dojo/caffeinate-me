@@ -8,9 +8,10 @@ Feature: Place an order
 
   Caffeinate-Me customers like their coffee hot
 
+  @sprint-2
   Scenario: Buyer orders a coffee
     Given Cathy has a Caffeinate-Me account
     When she orders a large cappuccino
-    Then Barry should receive the order
+    Then Cathy should receive the order
 
 

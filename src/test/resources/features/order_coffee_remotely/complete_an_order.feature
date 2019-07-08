@@ -5,6 +5,7 @@ Feature: Completing orders
     Given Barry is a barista
     And Sarah is a registered customer
 
+  @sprint-2
   Scenario: Barry delivers a completed order
     Given Sarah has ordered an espresso
     When Barry marks the order as complete

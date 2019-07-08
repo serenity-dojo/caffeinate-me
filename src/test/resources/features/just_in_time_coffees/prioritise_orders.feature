@@ -13,8 +13,13 @@ Feature: Prioritise orders
     When Barry reviews the pending orders
     Then Sarah's order should have an urgency of <Urgency>
 
-    Examples:
+    @sprint-2
+    Examples: Far
       | Rule                      | ETA | Urgency |
       | More than 10 minutes away | 12  | Normal  |
       | Between 5 and 10 minutes  | 7   | High    |
-      | Less than 5 minutes       | 3   | Urgent  |
+
+    @sprint-3
+    Examples: Close
+      | Rule                | ETA | Urgency |
+      | Less than 5 minutes | 3   | Urgent  |

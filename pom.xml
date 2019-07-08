@@ -11,9 +11,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <serenity.version>2.0.55</serenity.version>
-        <serenity.maven.version>2.0.55</serenity.maven.version>
-        <serenity.cucumber.version>1.9.37</serenity.cucumber.version>
+        <serenity.version>2.0.57-SNAPSHOT</serenity.version>
+        <serenity.maven.version>2.0.56</serenity.maven.version>
+        <serenity.cucumber.version>1.9.40</serenity.cucumber.version>
         <encoding>UTF-8</encoding>
         <tags></tags>
         <parallel.tests>4</parallel.tests>
@@ -141,6 +141,18 @@
                 <configuration>
                   <tags>${tags}</tags>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.serenity-bdd</groupId>
+                        <artifactId>serenity-emailer</artifactId>
+                        <version>${serenity.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.serenity-bdd</groupId>
+                        <artifactId>serenity-core</artifactId>
+                        <version>${serenity.version}</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <id>serenity-reports</id>
