@@ -3,12 +3,10 @@ package caffeinateme;
 import caffeinateme.steps.Barista;
 import caffeinateme.steps.Customer;
 import caffeinateme.steps.ProductCatalog;
-import cucumber.api.DataTable;
-import cucumber.api.PendingException;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import net.serenitybdd.core.Serenity;
 import net.thucydides.core.annotations.Steps;
 
@@ -52,10 +50,10 @@ public class OrderACoffeeStepDefinitions {
     }
 
     Receipt receipt;
-    
+
     @When("^she asks for a receipt$")
     public void sheAsksForAReceipt() throws Throwable {
-        receipt = customer.requestsAReceipt();    
+        receipt = customer.requestsAReceipt();
     }
 
     @Then("^she should receive a receipt totalling:$")
