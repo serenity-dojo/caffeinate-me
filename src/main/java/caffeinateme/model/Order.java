@@ -6,7 +6,7 @@ public class Order {
     private final int quantity;
     private final String product;
     private final Customer customer;
-    private final OrderStatus status;
+    private OrderStatus status;
 
     public Order(int quantity, String product, Customer customer) {
         this(quantity,product, customer, OrderStatus.Normal);
@@ -22,6 +22,11 @@ public class Order {
     public Order withStatus(OrderStatus status) {
         return new Order(quantity,product,customer, status);
     }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
     public OrderStatus getStatus() {
         return status;
     }

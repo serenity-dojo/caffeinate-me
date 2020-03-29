@@ -4,14 +4,10 @@ Feature: Prioritising orders
   As head barista preparing orders in a large coffee shop
   I need to have an idea of how many drink orders are coming
 
-  Background:
-    Given Cathy has a Caffeinate-me account
-
   Scenario Outline: Prioritise orders according to client ETA
-    Given Cathy has ordered an expresso
-    And Cathy is <ETA> minutes away
-    When Barry reviews his pending orders
-    Then Cathy's order should have an urgency of <Urgency>
+    Given Cathy has ordered an espresso
+    When Cathy is <ETA> minutes away
+    Then Barry should know that the order is <Urgency>
     Examples:
       | Rule                      | ETA | Urgency |
       | More than 10 minutes away | 12  | Normal  |

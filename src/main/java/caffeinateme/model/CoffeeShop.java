@@ -1,5 +1,6 @@
 package caffeinateme.model;
 
+import java.nio.file.attribute.FileTime;
 import java.util.*;
 
 public class CoffeeShop {
@@ -21,5 +22,19 @@ public class CoffeeShop {
         return orders.stream()
                 .filter( order -> order.getCustomer().equals(customer))
                 .findFirst();
+    }
+
+    public void setCustomerETA(Customer customer, int etaInMinutes) {
+        getOrderFor(customer).ifPresent(
+                order -> {
+                    if (etaInMinutes < 5) {
+                        order.setStatus(OrderStatus.Urgent);
+                    } else if (etaInMinutes > 10) {
+                        order.setStatus(OrderStatus.Normal);
+                    } else {
+                        order.setStatus(OrderStatus.High);
+                    }
+                }
+        );
     }
 }
