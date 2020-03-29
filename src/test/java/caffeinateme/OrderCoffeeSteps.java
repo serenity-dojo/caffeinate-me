@@ -2,6 +2,7 @@ package caffeinateme;
 
 import caffeinateme.model.*;
 import io.cucumber.java.ParameterType;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -36,7 +37,6 @@ public class OrderCoffeeSteps {
 
     @Then("Barry should know that the order is {order-status}")
     public void barry_should_know_that_the_order_is(OrderStatus expectedStatus) {
-        System.out.println("STATUS = " + expectedStatus);
         Order cathysOrder = coffeeShop.getOrderFor(cathy)
                                       .orElseThrow(() -> new AssertionError("No order found!"));
         assertThat(cathysOrder.getStatus()).isEqualTo(expectedStatus);
@@ -48,5 +48,15 @@ public class OrderCoffeeSteps {
 
     @Then("he/she/they should receive a message {string}")
     public void shouldReceiveAMessage(String message) {
+    }
+
+    @And("Cathy is {int} minutes away")
+    public void customerIsMinutesAway(int etaInMinutes) {
+        coffeeShop.setCustomerETA(cathy, etaInMinutes);
+    }
+
+    @When("Barry reviews his pending orders")
+    public void barryReviewsHisPendingOrders() {
+
     }
 }
