@@ -6,7 +6,7 @@ public class CoffeeShop {
 
     private Queue<Order> orders = new LinkedList<>();
 
-    public void placeOrder(Order order, int distanceInMetres) {
+    public void placeOrder(Order order, float distanceInMetres) {
         if (distanceInMetres <= 200) {
             order = order.withStatus(OrderStatus.Urgent);
         }
