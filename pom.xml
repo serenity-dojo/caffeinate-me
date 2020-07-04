@@ -11,10 +11,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <serenity.version>2.2.0</serenity.version>
-        <serenity.maven.version>2.2.0</serenity.maven.version>
-        <serenity.cucumber.version>2.2.0</serenity.cucumber.version>
-        <cucumber.version>5.5.0</cucumber.version>
+        <serenity.version>2.2.9</serenity.version>
+        <serenity.maven.version>2.2.9</serenity.maven.version>
+        <serenity.cucumber.version>2.2.5</serenity.cucumber.version>
         <encoding>UTF-8</encoding>
         <tags></tags>
         <parallel.tests>4</parallel.tests>
@@ -48,10 +47,6 @@
             <artifactId>logback-classic</artifactId>
             <version>1.0.13</version>
         </dependency>
-        <!--
-          - To use Cucumber 4, exclude the old Cucumber 2 cucumber-core dependency from the serenity-core dependency
-          - and include the Cucumber 4 cucumber-java and cucumber-junit dependencies.
-        -->
         <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-core</artifactId>
@@ -85,7 +80,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13</version>
             <scope>test</scope>
         </dependency>
         <dependency>
