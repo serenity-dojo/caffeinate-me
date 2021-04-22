@@ -13,7 +13,7 @@ public class UserRegistrationStepDefinitions {
     @Steps(shared = true)
     Customer customer;
 
-    @Given("^(.*) has a Caffeinate-Me account")
+    @Given("^(.*) (?:has|is) a (?:Caffeinate-Me account|registered customer)")
     public void userHasACaffeinateMeAccount(String userName) {
         userRegistrations.registerUser(customer);
         customer.isCalled(userName);

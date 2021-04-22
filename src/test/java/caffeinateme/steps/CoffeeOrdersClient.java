@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CoffeeOrdersClient {
 
@@ -18,6 +19,7 @@ public class CoffeeOrdersClient {
     ProductCatalog productCatalog;
 
     List<Order> orders = new ArrayList<>();
+    List<Order> orderHistory = new ArrayList<>();
 
     @Step("Place order for customer {0} for {1} x {2}")
     public OrderReceipt placeOrder(long customerId, int quantity, String product) {
@@ -65,4 +67,12 @@ public class CoffeeOrdersClient {
     private double subtotalFor(Order order) {
         return productCatalog.priceOf(order.getProduct()) * order.getQuantity();
     }
+
+    public List<Order> getOrderHistory(long customerId){
+       return orders.stream().filter(order -> order.getCustomerId()==customerId)
+                .filter(order -> order.getOrderStatus()=="Complete")
+               .collect(Collectors.toList());
+    }
+
+
 }

@@ -5,12 +5,15 @@ public class Order {
     private final int quantity;
     private final String product;
     private int etaInMinutes;
+    private String orderStatus;
+
 
     public Order(long customerId, int quantity, String product) {
 
         this.customerId = customerId;
         this.quantity = quantity;
         this.product = product;
+        this.orderStatus = "Pending";
     }
 
     public OrderReceipt getReceipt() {
@@ -27,6 +30,15 @@ public class Order {
 
     public String getProduct() {
         return product;
+    }
+
+    public void completeOrder()
+    {
+        this.orderStatus="Complete";
+    }
+    public String getOrderStatus()
+    {
+        return orderStatus;
     }
 
     @Override
