@@ -9,3 +9,13 @@ Feature: Order a coffee
     When Cathy orders a large cappuccino
     Then Barry should receive the order
     And Barry should know that the order is Urgent
+
+    Scenario Outline: Buyer orders a coffee when they are close to the coffee shop
+      Given Cathy is <distance> metres from the coffee shop
+      When Cathy orders a large cappuccino
+      Then Barry should receive the order
+      And Barry should know that the order is <status>
+      Examples:
+        |distance | status |
+        |50       | Urgent |
+        |300      | Normal |
