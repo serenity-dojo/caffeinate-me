@@ -1,12 +1,15 @@
 package caffeinateme.model;
 
+import io.cucumber.cucumberexpressions.ParameterType;
+
 import java.util.*;
 
 public class CoffeeShop {
 
     private Queue<Order> orders = new LinkedList<>();
 
-    public void placeOrder(Order order, int distanceInMetres) {
+
+    public void placeOrder(Order order, Float distanceInMetres) {
         if (distanceInMetres <= 200) {
             order = order.withStatus(OrderStatus.Urgent);
         }
