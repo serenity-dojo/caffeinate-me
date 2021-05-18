@@ -21,7 +21,7 @@ public class OrderCoffeeSteps {
         cathy.setDistanceFromShop(distanceInMetres);
     }
 
-    @When("^Cathy orders a (.*)")
+    @When("^Cathy (?:orders|has ordered) a (.*)")
     public void cathy_orders_a(String orderedProduct) {
         this.order = Order.of(1,orderedProduct).forCustomer(cathy);
         cathy.placesAnOrderFor(order).at(coffeeShop);
