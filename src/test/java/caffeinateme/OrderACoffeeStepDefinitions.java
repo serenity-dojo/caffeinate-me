@@ -37,6 +37,7 @@ public class OrderACoffeeStepDefinitions {
         Serenity.setSessionVariable("orderReceipt").to(orderReceipt);
     }
 
+
     @Then("^Barry should receive the order$")
     public void barryShouldReceiveTheOrder() throws Throwable {
         assertThat(barry.pendingOrders()).contains(Order.matching(orderReceipt));
@@ -99,4 +100,25 @@ public class OrderACoffeeStepDefinitions {
     public void theReceiptShouldContainTheLineItems(List<ReceiptLineItem> expectedLineItems) throws Throwable {
         assertThat(receipt.getLineItems()).containsExactlyElementsOf(expectedLineItems);
     }
+
+    @Given("^(.*) is a barista")
+    public void barry_is_a_barista(String name) {
+        barry.isCalled(name);
+    }
+
+    @When("^Barry marks the order as (.*)")
+    public void barry_marks_the_order_as_complete(String orderStatus) {
+    barry.completeOrder(orderReceipt);
+    }
+
+    @Then("the order should no longer appear in the pending orders")
+    public void the_order_should_no_longer_appear_in_the_pending_orders() {
+        assertThat(barry.pendingOrders()).doesNotContain(Order.matching(orderReceipt));
+    }
+
+    @Then("Sarah should see the order in her order history")
+    public void sarah_should_see_the_order_in_her_order_history() {
+        assertThat(customer.getOrderHistoryFor(orderReceipt.getCustomerId())).contains(Order.matching(orderReceipt));
+    }
+
 }

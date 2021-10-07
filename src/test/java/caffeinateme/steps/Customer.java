@@ -1,10 +1,14 @@
 package caffeinateme.steps;
 
+import caffeinateme.Order;
 import caffeinateme.OrderReceipt;
 import caffeinateme.Receipt;
 import net.serenitybdd.core.steps.ScenarioActor;
 import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.Steps;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Customer extends ScenarioActor {
 
@@ -34,5 +38,10 @@ public class Customer extends ScenarioActor {
     @Step("#actor requests a receipt")
     public Receipt requestsAReceipt() {
         return coffeeOrders.getReceiptFor(customerId);
+    }
+
+    public List<Order> getOrderHistoryFor(long customerId)
+    {
+        return coffeeOrders.getOrderHistory(customerId);
     }
 }
