@@ -11,7 +11,11 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+<<<<<<< HEAD
         <serenity.version>3.3.8</serenity.version>
+=======
+        <serenity.version>3.3.0</serenity.version>
+>>>>>>> 078856d70b843492c008af7e2047369d738e853b
         <encoding>UTF-8</encoding>
         <tags></tags>
         <parallel.tests>4</parallel.tests>
