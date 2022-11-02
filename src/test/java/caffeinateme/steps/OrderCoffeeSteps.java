@@ -11,19 +11,24 @@ import io.cucumber.java.en.When;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class OrderCoffeeSteps {
-    Customer cathy = Customer.named("Cathy");
+    Customer customer = Customer.named("Cathy");
     CoffeeShop coffeeShop = new CoffeeShop();
     Order order;
 
+    @Given("^(.*) is a CaffeinateMe customer")
+    public void a_caffeinate_me_customer_named(String customerName){
+        customer = coffeeShop.registerNewCustomer(customerName);
+    }
+
     @Given("Cathy is {int} metres from the coffee shop")
     public void cathy_is_metres_from_the_coffee_shop(Integer distanceInMetres) {
-        cathy.setDistanceFromShop(distanceInMetres);
+        customer.setDistanceFromShop(distanceInMetres);
     }
 
     @When("^Cathy orders a (.*)")
     public void cathy_orders_a(String orderedProduct) {
-        this.order = Order.of(1, orderedProduct).forCustomer(cathy);
-        cathy.placesAnOrderFor(order).at(coffeeShop);
+        this.order = Order.of(1, orderedProduct).forCustomer(customer);
+        customer.placesAnOrderFor(order).at(coffeeShop);
     }
 
     @Then("Barry should receive the order")
@@ -33,7 +38,7 @@ public class OrderCoffeeSteps {
 
     @Then("^Barry should know that the order is (.*)")
     public void barry_should_know_that_the_order_is(OrderStatus expectedStatus) {
-        Order cathysOrder = coffeeShop.getOrderFor(cathy)
+        Order cathysOrder = coffeeShop.getOrderFor(customer)
                 .orElseThrow(() -> new AssertionError("No order found!"));
         assertThat(cathysOrder.getStatus()).isEqualTo(expectedStatus);
     }
