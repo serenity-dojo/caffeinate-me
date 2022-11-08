@@ -4,24 +4,35 @@ import java.util.Objects;
 
 public class Order {
     private final int quantity;
+    private final String comment;
     private final String product;
     private final Customer customer;
     private final OrderStatus status;
 
     public Order(int quantity, String product, Customer customer) {
-        this(quantity,product, customer, OrderStatus.Normal);
+        this(quantity,product, customer, OrderStatus.Normal, "");
     }
 
-    public Order(int quantity, String product, Customer customer, OrderStatus status) {
+    public Order(int quantity, String product, Customer customer, String comment) {
+        this(quantity,product, customer, OrderStatus.Normal, comment);
+    }
+
+    public Order(int quantity, String product, Customer customer, OrderStatus status, String comment) {
         this.quantity = quantity;
         this.product = product;
         this.customer = customer;
         this.status = status;
+        this.comment = comment;
+    }
+
+    public Order withComment(String comment) {
+        return new Order(quantity, product, customer, status, comment);
     }
 
     public Order withStatus(OrderStatus status) {
-        return new Order(quantity,product,customer, status);
+        return new Order(quantity,product,customer, status, comment);
     }
+
     public OrderStatus getStatus() {
         return status;
     }
@@ -33,6 +44,8 @@ public class Order {
     public String getProduct() {
         return product;
     }
+
+    public String getComment() { return comment; }
 
     public Customer getCustomer() {
         return customer;
