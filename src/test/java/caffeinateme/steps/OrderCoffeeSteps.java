@@ -11,11 +11,11 @@ import io.cucumber.java.en.When;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class OrderCoffeeSteps {
-    Customer customer = Customer.named("Cathy");
     CoffeeShop coffeeShop = new CoffeeShop();
     Order order;
+    Customer customer;
 
-    @Given("^(.*) is a CaffeinateMe customer")
+    @Given("{} is a CaffeinateMe customer")
     public void a_caffeinate_me_customer_named(String customerName){
         customer = coffeeShop.registerNewCustomer(customerName);
     }
@@ -25,9 +25,15 @@ public class OrderCoffeeSteps {
         customer.setDistanceFromShop(distanceInMetres);
     }
 
-    @When("^Cathy orders a (.*)")
+    @When("Cathy orders a {string}")
     public void cathy_orders_a(String orderedProduct) {
         this.order = Order.of(1, orderedProduct).forCustomer(customer);
+        customer.placesAnOrderFor(order).at(coffeeShop);
+    }
+
+    @When("Cathy orders a {string} with a comment {string}")
+    public void cathy_orders_with_comment(String orderedProduct, String comment) {
+        this.order = Order.of(1, orderedProduct).forCustomer(customer).withComment(comment);
         customer.placesAnOrderFor(order).at(coffeeShop);
     }
 
@@ -41,5 +47,11 @@ public class OrderCoffeeSteps {
         Order cathysOrder = coffeeShop.getOrderFor(customer)
                 .orElseThrow(() -> new AssertionError("No order found!"));
         assertThat(cathysOrder.getStatus()).isEqualTo(expectedStatus);
+    }
+
+    @Then("the order should have the comment {string}")
+    public void order_should_have_comment(String comment) {
+        Order order = coffeeShop.getOrderFor(customer).get();
+        assertThat(order.getComment()).isEqualTo(comment);
     }
 }
