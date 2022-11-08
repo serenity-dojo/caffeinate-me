@@ -20,12 +20,12 @@ public class OrderCoffeeSteps {
         customer = coffeeShop.registerNewCustomer(customerName);
     }
 
-    @Given("Cathy is {int} metres from the coffee shop")
+    @Given("Cathy is {double} metres from the coffee shop")
     public void cathy_is_metres_from_the_coffee_shop(Integer distanceInMetres) {
         customer.setDistanceFromShop(distanceInMetres);
     }
 
-    @When("^Cathy orders a (.*)")
+    @When("Cathy orders a {string}")
     public void cathy_orders_a(String orderedProduct) {
         this.order = Order.of(1, orderedProduct).forCustomer(customer);
         customer.placesAnOrderFor(order).at(coffeeShop);
@@ -36,7 +36,7 @@ public class OrderCoffeeSteps {
         assertThat(coffeeShop.getPendingOrders()).contains(order);
     }
 
-    @Then("^Barry should know that the order is (.*)")
+    @Then("Barry should know that the order is {}")
     public void barry_should_know_that_the_order_is(OrderStatus expectedStatus) {
         Order cathysOrder = coffeeShop.getOrderFor(customer)
                 .orElseThrow(() -> new AssertionError("No order found!"));
