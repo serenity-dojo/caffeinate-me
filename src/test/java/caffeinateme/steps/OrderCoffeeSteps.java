@@ -35,7 +35,7 @@ public class OrderCoffeeSteps {
         customer.placesAnOrderFor(order).at(coffeeShop);
     }
 
-    @When("Cathy ordezrs a {order} with a comment {string}")
+    @When("Cathy orders a {order} with a comment {string}")
     public void cathy_orders_with_comment(Order order, String comment) {
         this.order = order.withComment(comment);
         customer.placesAnOrderFor(order).at(coffeeShop);
