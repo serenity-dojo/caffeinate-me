@@ -4,6 +4,7 @@ import caffeinateme.model.CoffeeShop;
 import caffeinateme.model.Customer;
 import caffeinateme.model.Order;
 import caffeinateme.model.OrderStatus;
+import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -25,15 +26,18 @@ public class OrderCoffeeSteps {
         customer.setDistanceFromShop(distanceInMetres);
     }
 
-    @When("Cathy orders a {string}")
-    public void cathy_orders_a(String orderedProduct) {
-        this.order = Order.of(1, orderedProduct).forCustomer(customer);
+    @ParameterType("\"(.*)\"")
+    public Order order(String orderedProduct) {
+        return Order.of(1, orderedProduct).forCustomer(customer);
+    }
+    @When("Cathy orders a {order}")
+    public void cathy_orders_a(Order order) {
         customer.placesAnOrderFor(order).at(coffeeShop);
     }
 
-    @When("Cathy orders a {string} with a comment {string}")
-    public void cathy_orders_with_comment(String orderedProduct, String comment) {
-        this.order = Order.of(1, orderedProduct).forCustomer(customer).withComment(comment);
+    @When("Cathy ordezrs a {order} with a comment {string}")
+    public void cathy_orders_with_comment(Order order, String comment) {
+        this.order = order.withComment(comment);
         customer.placesAnOrderFor(order).at(coffeeShop);
     }
 
