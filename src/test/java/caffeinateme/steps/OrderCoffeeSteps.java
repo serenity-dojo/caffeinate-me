@@ -26,7 +26,7 @@ public class OrderCoffeeSteps {
         customer.setDistanceFromShop(distanceInMetres);
     }
 
-    @ParameterType("(?:\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\")")
+    @ParameterType("\"[^\"]*\"")
     public Order order(String orderedProduct) {
         return Order.of(1, orderedProduct).forCustomer(customer);
     }
