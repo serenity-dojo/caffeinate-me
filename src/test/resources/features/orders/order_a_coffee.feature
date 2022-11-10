@@ -8,17 +8,16 @@ Feature: Order a coffee
     Given Cathy is a CaffeinateMe customer
 
   Rule: Orders placed close to the store should be considered as Urgent
-    Example: Buyer orders a coffee when they are close to the coffee shop
-      Given Cathy is 100 metres from the coffee shop
+    Scenario Outline: Order priority depends on the distance from the shop
+      Given Cathy is <Distance> metres from the coffee shop
       When Cathy orders a "large cappuccino"
       Then Barry should receive the order
-      And Barry should know that the order is Urgent
-
-    Example: Buyer orders a coffee when they are far to the coffee shop
-      Given Cathy is 300 metres from the coffee shop
-      When Cathy orders a "large cappuccino"
-      Then Barry should receive the order
-      And Barry should know that the order is Normal
+      And Barry should know that the order is <Status>
+      Examples:
+        | Distance | Status |
+        | 100      | Urgent |
+        | 300      | Normal |
+        | 10000    | Low    |
 
   Rule:  Buyers can specify their preferences when they order
     Example: Buyers can add a comment with their order
@@ -34,3 +33,6 @@ Feature: Order a coffee
         | Espresso         | 2        |
       Then Barry should receive the order
       And the order should contain 2 line items
+      And the order should contain the following products:
+        | Large cappuccino |
+        | Espresso         |
