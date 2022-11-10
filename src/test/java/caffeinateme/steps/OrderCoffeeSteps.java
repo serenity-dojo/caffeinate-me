@@ -17,7 +17,7 @@ public class OrderCoffeeSteps {
     Customer customer;
 
     @Given("{} is a CaffeinateMe customer")
-    public void a_caffeinate_me_customer_named(String customerName){
+    public void a_caffeinate_me_customer_named(String customerName) {
         customer = coffeeShop.registerNewCustomer(customerName);
     }
 
@@ -26,19 +26,21 @@ public class OrderCoffeeSteps {
         customer.setDistanceFromShop(distanceInMetres);
     }
 
-    @ParameterType("\"(.*)\"")
+    @ParameterType("(?:\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\")")
     public Order order(String orderedProduct) {
         return Order.of(1, orderedProduct).forCustomer(customer);
     }
+
     @When("Cathy orders a {order}")
-    public void cathy_orders_a(Order order) {
-        customer.placesAnOrderFor(order).at(coffeeShop);
+    public void cathy_orders_a(Order newOrder) {
+        this.order = newOrder;
+        customer.placesAnOrderFor(this.order).at(coffeeShop);
     }
 
-    @When("Cathy ordezrs a {order} with a comment {string}")
-    public void cathy_orders_with_comment(Order order, String comment) {
-        this.order = order.withComment(comment);
-        customer.placesAnOrderFor(order).at(coffeeShop);
+    @When("Cathy orders a {order} with a comment {string}")
+    public void cathy_orders_with_comment(Order newOrder, String comment) {
+        this.order = newOrder.withComment(comment);
+        customer.placesAnOrderFor(this.order).at(coffeeShop);
     }
 
     @Then("Barry should receive the order")
