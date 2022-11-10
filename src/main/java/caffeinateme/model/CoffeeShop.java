@@ -4,8 +4,13 @@ import java.util.*;
 
 public class CoffeeShop {
 
+    private static final int MAX_DISTANCE = 10000;
     private Queue<Order> orders = new LinkedList<>();
     private Map<String, Customer> registeredCustomers = new HashMap<>();
+
+    public void placeOrder(Order order) {
+        placeOrder(order, MAX_DISTANCE);
+    }
 
     public void placeOrder(Order order, int distanceInMetres) {
         if (distanceInMetres <= 200) {
