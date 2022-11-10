@@ -1,49 +1,53 @@
 package caffeinateme.model;
 
-import java.util.Objects;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Order {
-    private final int quantity;
-    private final String comment;
-    private final String product;
     private final Customer customer;
-    private final OrderStatus status;
+    private final List<OrderItem> items;
+    private OrderStatus status;
+    private String comment;
+    private final Long orderNumber;
 
-    public Order(int quantity, String product, Customer customer) {
-        this(quantity,product, customer, OrderStatus.Normal, "");
+    private final static AtomicLong ORDER_NUMBERS = new AtomicLong();
+
+    public Order(List<OrderItem> items, Customer customer) {
+        this(items, customer, OrderStatus.Normal, "");
     }
 
-    public Order(int quantity, String product, Customer customer, String comment) {
-        this(quantity,product, customer, OrderStatus.Normal, comment);
+    public Order(List<OrderItem> items, Customer customer, String comment) {
+        this(items, customer, OrderStatus.Normal, comment);
     }
 
-    public Order(int quantity, String product, Customer customer, OrderStatus status, String comment) {
-        this.quantity = quantity;
-        this.product = product;
+    public Order(List<OrderItem> items, Customer customer, OrderStatus status, String comment) {
+        this(items, customer, status, comment, ORDER_NUMBERS.incrementAndGet());
+    }
+
+
+    public Order(List<OrderItem> items, Customer customer, OrderStatus status, String comment, long orderNumber) {
+        this.items = items;
         this.customer = customer;
         this.status = status;
         this.comment = comment;
+        this.orderNumber = orderNumber;
     }
 
     public Order withComment(String comment) {
-        return new Order(quantity, product, customer, status, comment);
+        this.comment = comment;
+        return this;
     }
 
     public Order withStatus(OrderStatus status) {
-        return new Order(quantity,product,customer, status, comment);
+        this.status = status;
+        return this;
     }
 
     public OrderStatus getStatus() {
         return status;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public String getProduct() {
-        return product;
-    }
+    public List<OrderItem> getItems() { return items; }
 
     public String getComment() { return comment; }
 
@@ -66,22 +70,7 @@ public class Order {
         }
 
         public Order forCustomer(Customer customerName) {
-            return new Order(quantity, product, customerName);
+            return new Order(List.of(new OrderItem(product, quantity)), customerName);
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return quantity == order.quantity &&
-                Objects.equals(product, order.product) &&
-                Objects.equals(customer, order.customer);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(quantity, product, customer);
     }
 }
