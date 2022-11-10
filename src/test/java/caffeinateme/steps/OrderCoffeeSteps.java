@@ -26,7 +26,7 @@ public class OrderCoffeeSteps {
         customer.setDistanceFromShop(distanceInMetres);
     }
 
-    @ParameterType("(?:\"([^\"\\\\]*(\\\\.[^\"\\\\]*)*)\")")
+    @ParameterType("\"[^\"]*\"")
     public Order order(String orderedProduct) {
         return Order.of(1, orderedProduct).forCustomer(customer);
     }
@@ -39,7 +39,7 @@ public class OrderCoffeeSteps {
     @When("Cathy orders a {order} with a comment {string}")
     public void cathy_orders_with_comment(Order order, String comment) {
         this.order = order.withComment(comment);
-        customer.placesAnOrderFor(this.order).at(coffeeShop);
+        customer.placesAnOrderFor(order).at(coffeeShop);
     }
 
     @Then("Barry should receive the order")
