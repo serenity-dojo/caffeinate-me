@@ -1,7 +1,6 @@
 package caffeinateme.steps;
 
 import caffeinateme.model.*;
-import io.cucumber.datatable.DataTable;
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.And;
@@ -67,11 +66,11 @@ public class OrderCoffeeSteps {
     }
 
     @DataTableType
-    public OrderItem orderItem(Map<String,String> row) {
+    public OrderItem orderItem(Map<String, String> row) {
         return new OrderItem(row.get("Product"), Integer.parseInt(row.get("Quantity")));
     }
 
-    @When("Cathy places an order for the following items:")
+    @When("^Cathy (?:has placed|places) an order for the following items:")
     public void cathyPlacesAnOrderForTheFollowingItems(List<OrderItem> orderItems) {
         this.order = new Order(orderItems, customer);
         coffeeShop.placeOrder(this.order);
@@ -88,5 +87,48 @@ public class OrderCoffeeSteps {
         Order order = coffeeShop.getOrderFor(customer).get();
         List<String> productItems = order.getItems().stream().map(item -> item.product()).collect(Collectors.toList());
         assertThat(productItems).hasSameElementsAs(expectedProducts);
+    }
+
+    @DataTableType
+    public ProductPrice productPrice(Map<String, String> entry) {
+        return new ProductPrice(entry.get("Product"),
+                Double.parseDouble(entry.get("Price")));
+    }
+
+    @Given("the following prices:")
+    public void setupCatalog(List<ProductPrice> productPrices) {
+        catalog.addProductsWithPrices(productPrices);
+    }
+
+    Receipt receipt;
+
+    @When("he/she asks for a receipt")
+    public void sheAsksForAReceipt() {
+        receipt = coffeeShop.getReceiptFor(customer);
+    }
+
+    @Then("she should receive a receipt totalling:")
+    public void sheShouldReceiveAReceiptTotalling(Map<String, Double> receiptTotals) {
+        double serviceFee = receiptTotals.get("Service Fee");
+        double subtotal = receiptTotals.get("Subtotal");
+        double total = receiptTotals.get("Total");
+
+        assertThat(receipt.serviceFee()).isEqualTo(serviceFee);
+        assertThat(receipt.subtotal()).isEqualTo(subtotal);
+        assertThat(receipt.total()).isEqualTo(total);
+    }
+
+    @DataTableType
+    public ReceiptLineItem receiptLineItem(Map<String, String> itemData) {
+        return new ReceiptLineItem(
+                itemData.get("Product"),
+                Integer.parseInt(itemData.get("Quantity")),
+                Double.parseDouble(itemData.get("Price"))
+        );
+    }
+
+    @And("the receipt should contain the line items:")
+    public void theReceiptShouldContainTheLineItems(List<ReceiptLineItem> expectedItems) {
+        assertThat(receipt.lineItems()).containsExactlyElementsOf(expectedItems);
     }
 }

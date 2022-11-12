@@ -15,8 +15,9 @@ Feature: Ask for a receipt
       | 2        | muffin           |
     When she asks for a receipt
     Then she should receive a receipt totalling:
-      | Subtotal | Service Fee | Total |
-      | 4.75     | 0.24        | 4.99  |
+      | Subtotal    | 4.75 |
+      | Service Fee | 0.24 |
+      | Total       | 4.99 |
     And the receipt should contain the line items:
       | Product          | Quantity | Price |
       | large cappuccino | 1        | 2.25  |
