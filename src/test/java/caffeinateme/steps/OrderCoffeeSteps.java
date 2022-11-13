@@ -7,9 +7,11 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.assertj.core.api.SoftAssertions;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,14 +37,17 @@ public class OrderCoffeeSteps {
         return Order.of(1, orderedProduct).forCustomer(customer);
     }
 
-    @When("Cathy orders a {order}")
-    public void cathy_orders_a(Order newOrder) {
+    @Given("{word} has ordered a/an {order}")
+    @When("{word} orders a/an {order}")
+    public void orders_a(String customerName, Order newOrder) {
         this.order = newOrder;
+        customer = coffeeShop.findCustomerByName(customerName);
         customer.placesAnOrderFor(this.order).at(coffeeShop);
     }
 
-    @When("Cathy orders a {order} with a comment {string}")
-    public void cathy_orders_with_comment(Order newOrder, String comment) {
+    @When("{word} orders a/an {order} with a comment {string}")
+    public void orders_with_comment(String customerName, Order newOrder, String comment) {
+        customer = coffeeShop.findCustomerByName(customerName);
         this.order = newOrder.withComment(comment);
         customer.placesAnOrderFor(this.order).at(coffeeShop);
     }
@@ -130,5 +135,36 @@ public class OrderCoffeeSteps {
     @And("the receipt should contain the line items:")
     public void theReceiptShouldContainTheLineItems(List<ReceiptLineItem> expectedItems) {
         assertThat(receipt.lineItems()).containsExactlyElementsOf(expectedItems);
+    }
+
+    List<Order> pendingOrders;
+
+    @When("Barry reviews the pending orders")
+    public void barryReviewsThePendingOrders() {
+        pendingOrders = coffeeShop.getPendingOrders();
+    }
+
+    @When("{word} cancels her order")
+    public void cancelOrder(String customerName){
+        coffeeShop.cancelOrderFor(customerName);
+    }
+
+    @DataTableType
+    public OrderDetails orderDetails(Map<String, String> row) {
+        return new OrderDetails(row.get("Customer"), row.get("Product"));
+    }
+
+    @Then("he/she should see the following orders:")
+    public void shouldSeeOrders(List<OrderDetails> expectedOrders) {
+        SoftAssertions softly = new SoftAssertions();
+
+        for (OrderDetails orderDetails : expectedOrders) {
+            Optional<Order> matchingOrder = pendingOrders.stream()
+                    .filter(order -> order.getCustomer().getName().equals(orderDetails.customerName()))
+                    .findFirst();
+
+            softly.assertThat(matchingOrder).isPresent();
+            softly.assertThat(matchingOrder.get().getOrderItemForProduct(orderDetails.productName())).isPresent();
+        }
     }
 }

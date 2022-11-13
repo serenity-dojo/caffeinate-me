@@ -1,6 +1,7 @@
 package caffeinateme.model;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Order {
@@ -53,6 +54,10 @@ public class Order {
 
     public Customer getCustomer() {
         return customer;
+    }
+
+    public Optional<OrderItem> getOrderItemForProduct(String productName) {
+        return items.stream().filter(item -> item.product().equals(productName)).findFirst();
     }
 
     public static OrderBuilder of(int quantity, String product) {

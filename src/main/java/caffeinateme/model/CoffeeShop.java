@@ -47,6 +47,10 @@ public class CoffeeShop {
         return newCustomer;
     }
 
+    public Customer findCustomerByName(String customerName) {
+        return registeredCustomers.get(customerName);
+    }
+
     public Receipt getReceiptFor(Customer customer) {
         Order order = orders.stream()
                 .filter(customerOrder -> customerOrder.getCustomer().equals(customer)).findFirst()
@@ -73,5 +77,9 @@ public class CoffeeShop {
     private double roundedTo2DecimalPlaces(double value) {
         return new BigDecimal(Double.toString(value)).setScale(2, RoundingMode.HALF_UP)
                 .doubleValue();
+    }
+
+    public void cancelOrderFor(String customerName) {
+        this.orders.removeIf(order -> order.getCustomer().getName().equals(customerName));
     }
 }
