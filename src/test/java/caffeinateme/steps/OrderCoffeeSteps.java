@@ -8,6 +8,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.assertj.core.api.SoftAssertions;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
@@ -32,23 +33,18 @@ public class OrderCoffeeSteps {
         customer.setDistanceFromShop(distanceInMetres);
     }
 
-    @ParameterType("\"[^\"]*\"")
-    public Order order(String orderedProduct) {
-        return Order.of(1, orderedProduct).forCustomer(customer);
-    }
-
-    @Given("{word} has ordered a/an {order}")
-    @When("{word} orders a/an {order}")
-    public void orders_a(String customerName, Order newOrder) {
-        this.order = newOrder;
+    @Given("{} has ordered a/an {string}")
+    @When("{} orders a/an {string}")
+    public void orders_a(String customerName, String productName) {
         customer = coffeeShop.findCustomerByName(customerName);
+        this.order = Order.of(1, productName).forCustomer(customer);
         customer.placesAnOrderFor(this.order).at(coffeeShop);
     }
 
-    @When("{word} orders a/an {order} with a comment {string}")
-    public void orders_with_comment(String customerName, Order newOrder, String comment) {
+    @When("{word} orders a/an {string} with a comment {string}")
+    public void orders_with_comment(String customerName, String productName, String comment) {
         customer = coffeeShop.findCustomerByName(customerName);
-        this.order = newOrder.withComment(comment);
+        this.order = Order.of(1, productName).forCustomer(customer).withComment(comment);
         customer.placesAnOrderFor(this.order).at(coffeeShop);
     }
 
@@ -151,7 +147,7 @@ public class OrderCoffeeSteps {
 
     @DataTableType
     public OrderDetails orderDetails(Map<String, String> row) {
-        return new OrderDetails(row.get("Customer"), row.get("Product"));
+        return new OrderDetails(row.get("Customer"), row.get("Order"));
     }
 
     @Then("he/she should see the following orders:")
@@ -159,12 +155,19 @@ public class OrderCoffeeSteps {
         SoftAssertions softly = new SoftAssertions();
 
         for (OrderDetails orderDetails : expectedOrders) {
-            Optional<Order> matchingOrder = pendingOrders.stream()
-                    .filter(order -> order.getCustomer().getName().equals(orderDetails.customerName()))
-                    .findFirst();
-
+            Optional<Order> matchingOrder = firstPendingOrderMatching(orderDetails);
             softly.assertThat(matchingOrder).isPresent();
-            softly.assertThat(matchingOrder.get().getOrderItemForProduct(orderDetails.productName())).isPresent();
+            matchingOrder.ifPresent(
+                    order -> softly.assertThat(order.getOrderItemForProduct(orderDetails.productName())).isPresent()
+            );
         }
+        softly.assertAll();
+    }
+
+    @NotNull
+    private Optional<Order> firstPendingOrderMatching(OrderDetails orderDetails) {
+        return pendingOrders.stream()
+                .filter(order -> order.getCustomer().getName().equals(orderDetails.customerName()))
+                .findFirst();
     }
 }
