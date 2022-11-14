@@ -14,7 +14,9 @@
         <serenity.version>3.4.2</serenity.version>
         <encoding>UTF-8</encoding>
         <tags></tags>
-        <parallel.tests>4</parallel.tests>
+<!--        <parallel.tests>4</parallel.tests>-->
+        <parallel>methods</parallel>
+        <useUnlimitedThreads>true</useUnlimitedThreads>
         <webdriver.base.url></webdriver.base.url>
     </properties>
 

@@ -9,6 +9,7 @@ Feature: Ask for a receipt
       | muffin             | 1.25  |
     And Cathy is a CaffeinateMe customer
 
+  @smoketest
   Scenario: A receipt for a single item
     Given Cathy has placed an order for the following items:
       | Quantity | Product          |

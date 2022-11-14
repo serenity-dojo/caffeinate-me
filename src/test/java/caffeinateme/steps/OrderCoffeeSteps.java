@@ -1,6 +1,7 @@
 package caffeinateme.steps;
 
 import caffeinateme.model.*;
+import io.cucumber.java.Before;
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.And;
@@ -23,6 +24,10 @@ public class OrderCoffeeSteps {
     Order order;
     Customer customer;
 
+    @Before
+    public void before() {
+        System.out.println("Running in thread " + Thread.currentThread());
+    }
     @Given("{} is a CaffeinateMe customer")
     public void a_caffeinate_me_customer_named(String customerName) {
         customer = coffeeShop.registerNewCustomer(customerName);

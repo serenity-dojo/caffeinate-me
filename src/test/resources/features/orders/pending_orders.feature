@@ -1,3 +1,4 @@
+@billing
 Feature: View pending orders
 
   Barry needs to see the orders that his customers have placed.
@@ -6,6 +7,7 @@ Feature: View pending orders
     Given Sarah is a CaffeinateMe customer
     And Joe is a CaffeinateMe customer
 
+  @smoketest
   Scenario: Barry sees all the orders
     Given Sarah has ordered an "espresso"
     Given Joe has ordered a "cappuccino"
