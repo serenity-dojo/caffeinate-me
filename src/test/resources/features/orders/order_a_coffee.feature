@@ -1,4 +1,3 @@
-@purchases @billing
 Feature: Order a coffee
 
   In order to save time when I pick up my morning coffee
@@ -9,7 +8,6 @@ Feature: Order a coffee
     Given Cathy is a CaffeinateMe customer
 
   Rule:  Buyers can specify their preferences when they order
-    @sprint-1
     Example: Buyers can add a comment with their order
       When Cathy orders a "large cappuccino" with a comment "Double sugar"
       Then Barry should receive the order
