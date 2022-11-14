@@ -71,8 +71,9 @@ public class OrderCoffeeSteps {
         return new OrderItem(row.get("Product"), Integer.parseInt(row.get("Quantity")));
     }
 
-    @When("^Cathy (?:has placed|places) an order for the following items:")
-    public void cathyPlacesAnOrderForTheFollowingItems(List<OrderItem> orderItems) {
+    @When("^(.*) (?:has placed|places) an order for the following items:")
+    public void lacesAnOrderForTheFollowingItems(String customerName, List<OrderItem> orderItems) {
+        this.customer = coffeeShop.findCustomerByName(customerName);
         this.order = new Order(orderItems, customer);
         coffeeShop.placeOrder(this.order);
     }

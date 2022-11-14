@@ -1,3 +1,6 @@
+@kitchen
+@sprint-2
+@issue:CM-2
 Feature: View pending orders
 
   Barry needs to see the orders that his customers have placed.
@@ -15,6 +18,8 @@ Feature: View pending orders
       | Sarah    | espresso   |
       | Joe      | cappuccino |
 
+  @billing
+  @sprint-1
   Scenario: Cancelled orders should not be included in the pending orders
     Given Sarah has ordered an "espresso"
     Given Joe has ordered a "cappuccino"

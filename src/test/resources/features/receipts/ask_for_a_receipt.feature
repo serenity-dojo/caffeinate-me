@@ -1,3 +1,4 @@
+@billing
 Feature: Ask for a receipt
 
   Background:
@@ -8,7 +9,20 @@ Feature: Ask for a receipt
       | muffin             | 1.25  |
     And Cathy is a CaffeinateMe customer
 
-  Scenario: Order several items
+  Scenario: A receipt for a single item
+    Given Cathy has placed an order for the following items:
+      | Quantity | Product          |
+      | 1        | large cappuccino |
+    When she asks for a receipt
+    Then she should receive a receipt totalling:
+      | Subtotal    | 2.25 |
+      | Service Fee | 0.11 |
+      | Total       | 2.36 |
+    And the receipt should contain the line items:
+      | Product          | Quantity | Price |
+      | large cappuccino | 1        | 2.25  |
+
+  Scenario: A receipt for several items
     Given Cathy has placed an order for the following items:
       | Quantity | Product          |
       | 1        | large cappuccino |

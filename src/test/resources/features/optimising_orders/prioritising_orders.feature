@@ -1,3 +1,6 @@
+@kitchen
+@sprint-1
+@issue:CM-1
 Feature: Prioritising orders
 
   In order to organise my team better
