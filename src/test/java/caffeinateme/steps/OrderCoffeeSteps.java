@@ -1,6 +1,8 @@
 package caffeinateme.steps;
 
 import caffeinateme.model.*;
+import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -17,10 +19,35 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class OrderCoffeeSteps {
-    ProductCatalog catalog = new ProductCatalog();
-    CoffeeShop coffeeShop = new CoffeeShop(catalog);
+    static final ProductCatalog DEFAULT_CATALOG = new ProductCatalog();
+    static final ProductCatalog EMPTY_CATALOG = new ProductCatalog();
+
+    CoffeeShop coffeeShop;
     Order order;
     Customer customer;
+
+    @BeforeAll
+    public static void setupCatalog() {
+        DEFAULT_CATALOG.addProductsWithPrices(
+                List.of(
+                        new ProductPrice("Espresso", 1.50),
+                        new ProductPrice("Large cappeccino", 2.50)
+                )
+        );
+        System.out.println("SETTING UP DEFAULT CATALOG");
+    }
+
+    @Before("@default-catalog")
+    public void setupTheCoffeeShop() {
+        coffeeShop = new CoffeeShop(DEFAULT_CATALOG);
+        System.out.println("SETTING UP THE COFFEE SHOP WITH THE DEFAULT CATALOG");
+    }
+
+    @Before("@empty-catalog")
+    public void setupTheCoffeeShopWithAnEmptyCatalog() {
+        coffeeShop = new CoffeeShop(EMPTY_CATALOG);
+        System.out.println("SETTING UP THE COFFEE SHOP WITH THE EMPTY CATALOG");
+    }
 
     @Given("{} is a CaffeinateMe customer")
     public void a_caffeinate_me_customer_named(String customerName) {
@@ -98,7 +125,7 @@ public class OrderCoffeeSteps {
 
     @Given("the following prices:")
     public void setupCatalog(List<ProductPrice> productPrices) {
-        catalog.addProductsWithPrices(productPrices);
+        EMPTY_CATALOG.addProductsWithPrices(productPrices);
     }
 
     Receipt receipt;

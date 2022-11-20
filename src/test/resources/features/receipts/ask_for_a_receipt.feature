@@ -1,4 +1,4 @@
-@billing
+@billing @empty-catalog
 Feature: Ask for a receipt
 
   Background:

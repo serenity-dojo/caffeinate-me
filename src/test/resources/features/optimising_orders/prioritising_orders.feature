@@ -1,4 +1,5 @@
 @sprint-1
+@default-catalog
 @issue:CM-1
 Feature: Prioritising orders
 

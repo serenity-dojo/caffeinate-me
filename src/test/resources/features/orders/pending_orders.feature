@@ -1,4 +1,4 @@
-@billing
+@billing  @default-catalog
 Feature: View pending orders
 
   Barry needs to see the orders that his customers have placed.
