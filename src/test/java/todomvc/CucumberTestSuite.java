@@ -1,4 +1,4 @@
-package caffeinateme;
+package todomvc;
 
 import io.cucumber.junit.CucumberOptions;
 import net.serenitybdd.cucumber.CucumberWithSerenity;
