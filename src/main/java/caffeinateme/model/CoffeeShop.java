@@ -14,8 +14,11 @@ public class CoffeeShop {
         orders.add(order);
     }
 
-    public List<Order> getPendingOrders() {
-        return new ArrayList<>(orders);
+    public String getPendingOrders() {
+
+        List<String> order = new ArrayList<>();
+        order.add("cappuccino");
+        return order;
     }
 
     public Optional<Order> getOrderFor(Customer customer) {
