@@ -14,12 +14,10 @@ public class CoffeeShop {
         orders.add(order);
     }
 
-    public String getPendingOrders() {
-
-        List<String> order = new ArrayList<>();
-        order.add("cappuccino");
-        return order;
+    public List<Order> getPendingOrders() {
+        return new ArrayList<>(orders);
     }
+
 
     public Optional<Order> getOrderFor(Customer customer) {
         return orders.stream()
