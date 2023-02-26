@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 
 public class OrderCoffeeSteps {
@@ -47,7 +48,7 @@ public class OrderCoffeeSteps {
     public void barry_should_know_that_the_order_is(OrderStatus expectedStatus) {
         Order cathysOrder = coffeeShop.getOrderFor(cathy)
                 .orElseThrow(() -> new AssertionError("No order found!"));
-        assertThat(String.valueOf(cathysOrder.getStatus()), equals(expectedStatus));
+        assertThat(cathysOrder.getStatus(), equalTo(expectedStatus));
     }
 
 }

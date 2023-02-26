@@ -9,3 +9,17 @@ Feature: Order a coffee
     When Cathy orders a large cappuccino
     Then Barry should receive the order
     And Barry should know that the order is Urgent
+
+
+    Scenario: Buyer orders a coffee when they are 50 metres away from the shop
+      Given Cathy is 50 metres from the coffee shop
+      When Cathy orders a large cappuccino
+      Then Barry should receive the order
+      And Barry should know that the order is Urgent
+
+
+      Scenario: Buyer orders a coffer when they are 300 meters away from the shop
+        Given Cathy is 300 metres from the coffee shop
+        When Cathy orders a large Cappuccino
+        Then Barry should receive the order
+        And Barry should know that the order is Normal

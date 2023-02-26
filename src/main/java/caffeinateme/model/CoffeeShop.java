@@ -10,6 +10,8 @@ public class CoffeeShop {
     public void placeOrder(Order order, int distanceInMetres) {
         if (distanceInMetres <= 200) {
             order = order.withStatus(OrderStatus.Urgent);
+        } else if (distanceInMetres <=300) {
+            order = order.withStatus(OrderStatus.Normal);
         }
         orders.add(order);
     }
