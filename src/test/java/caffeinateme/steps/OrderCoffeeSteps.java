@@ -1,4 +1,4 @@
-package caffeinateme;
+package caffeinateme.steps;
 
 import caffeinateme.model.CoffeeShop;
 import caffeinateme.model.Customer;
@@ -35,14 +35,6 @@ public class OrderCoffeeSteps {
     public void barry_should_receive_the_order() {
         assertThat(coffeeShop.getPendingOrders(), hasItem(order));
     }
-
-
-//    @Then("Barry should know that the order is Urgent")
-//    public void barry_should_know_that_the_order_is_urgent() {
-//        // Write code here that turns the phrase above into concrete actions
-//        throw new io.cucumber.java.PendingException();
-    //assertThat(String.valueOf(cathysOrder.getStatus()), equals(expectedStatus));
-
 
     @Then("^Barry should know that the order is (.*)")
     public void barry_should_know_that_the_order_is(OrderStatus expectedStatus) {
