@@ -4,6 +4,7 @@ import caffeinateme.model.CoffeeShop;
 import caffeinateme.model.Customer;
 import caffeinateme.model.Order;
 import caffeinateme.model.OrderStatus;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -18,15 +19,21 @@ import static org.hamcrest.Matchers.hasItem;
 public class OrderCoffeeSteps {
 
     Customer cathy = Customer.named("Cathy");
+    Customer customer;
     CoffeeShop coffeeShop = new CoffeeShop();
     Order order;
 
 
-    @Given("Cathy is {int} metres from the coffee shop")
+    @Given("{} is a CaffeinateMe customer")
+    public void a_caffeinate_me_customer_named(String customerName){
+        customer = coffeeShop.registerNewCustomer(customerName);
+    }
+    @And("Cathy is {int} metres from the coffee shop")
     public void cathy_is_metres_from_the_coffee_shop(Integer distanceInMetres) {
         cathy.setDistanceFromShop(distanceInMetres);
     }
-    @When("^Cathy orders a (.*)")
+
+    @When("Cathy orders a {string}")
     public void cathy_orders_a(String orderedProduct) {
         this.order = Order.of(1,orderedProduct).forCustomer(cathy);
         cathy.placesAnOrderFor(order).at(coffeeShop);
@@ -43,4 +50,19 @@ public class OrderCoffeeSteps {
         assertThat(cathysOrder.getStatus(), equalTo(expectedStatus));
     }
 
+
+
+    @When("Cathy orders a {string} with a comment {string}")
+    public void cathy_orders_with_comment(String orderedProduct, String comment) {
+        this.order = Order.of(1, orderedProduct).forCustomer(customer).withComment(comment);
+        customer.placesAnOrderFor(order).at(coffeeShop);
+    }
+
+    @Then("the order should have the comment {string}")
+    public void order_should_have_comment(String comment) {
+        Order order = coffeeShop.getOrderFor(customer).get();
+        assertThat(order.getComment(),equalTo(comment));
+
+
+}
 }

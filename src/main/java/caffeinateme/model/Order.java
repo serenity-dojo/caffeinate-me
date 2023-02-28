@@ -45,7 +45,10 @@ public class Order {
         return product;
     }
 
-    public String getComment() { return comment; }
+    public String getComment()
+    {
+        return comment;
+    }
 
     public Customer getCustomer() {
         return customer;
