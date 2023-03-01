@@ -4,6 +4,7 @@ import caffeinateme.model.CoffeeShop;
 import caffeinateme.model.Customer;
 import caffeinateme.model.Order;
 import caffeinateme.model.OrderStatus;
+import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -28,14 +29,19 @@ public class OrderCoffeeSteps {
     public void a_caffeinate_me_customer_named(String customerName){
         customer = coffeeShop.registerNewCustomer(customerName);
     }
+
     @And("Cathy is {int} metres from the coffee shop")
     public void cathy_is_metres_from_the_coffee_shop(Integer distanceInMetres) {
         cathy.setDistanceFromShop(distanceInMetres);
     }
 
-    @When("Cathy orders a {string}")
-    public void cathy_orders_a(String orderedProduct) {
-        this.order = Order.of(1,orderedProduct).forCustomer(cathy);
+    @ParameterType("\"(.*)\"")
+    public Order order(String orderedProduct) {
+        return Order.of(1, orderedProduct).forCustomer(customer);
+    }
+    @When("Cathy orders a {order}")
+    public void cathy_orders_a(Order order) {
+        this.order = order;
         cathy.placesAnOrderFor(order).at(coffeeShop);
     }
     @Then("Barry should receive the order")
@@ -52,9 +58,9 @@ public class OrderCoffeeSteps {
 
 
 
-    @When("Cathy orders a {string} with a comment {string}")
-    public void cathy_orders_with_comment(String orderedProduct, String comment) {
-        this.order = Order.of(1, orderedProduct).forCustomer(customer).withComment(comment);
+    @When("Cathy orders a {order} with a comment {string}")
+    public void cathy_orders_with_comment(Order order, String comment) {
+        this.order = order.withComment(comment);
         customer.placesAnOrderFor(order).at(coffeeShop);
     }
 
