@@ -1,5 +1,6 @@
 package caffeinateme.model;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Order {
@@ -24,6 +25,12 @@ public class Order {
         this.status = status;
         this.comment = comment;
     }
+
+    public Order(List<OrderItem> orderItems, Customer customer) {
+        this.orderItems = orderItems;
+        this.customer = customer;
+    }
+
 
     public Order withComment(String comment) {
         return new Order(quantity, product, customer, status, comment);

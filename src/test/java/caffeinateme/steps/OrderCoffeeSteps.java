@@ -1,17 +1,16 @@
 package caffeinateme.steps;
 
-import caffeinateme.model.CoffeeShop;
-import caffeinateme.model.Customer;
-import caffeinateme.model.Order;
-import caffeinateme.model.OrderStatus;
+import caffeinateme.model.*;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import lombok.var;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -68,7 +67,21 @@ public class OrderCoffeeSteps {
     public void order_should_have_comment(String comment) {
         Order order = coffeeShop.getOrderFor(customer).get();
         assertThat(order.getComment(),equalTo(comment));
-
-
 }
+
+    @When("Cathy places an order for the following items:")
+    public void cathyPlacesAnOrderForTheFollowingItems(DataTable orderItemValues) {
+        var items = orderItemValues.asMaps();
+        List<OrderItem> orderItems
+                = items.stream()
+                      .map(row -> new OrderItem(row.get("Product"),
+                              Integer.parseInt(row.get("Quantity"))))
+                .collect(Collectors.toList());
+        this.order = new Order(orderItems,customer);
+    }
+
+    @And("the order should contain {int} line items")
+    public void theOrderShouldContainLineItems(int expectedNumberOfLineItems) {
+
+    }
 }
