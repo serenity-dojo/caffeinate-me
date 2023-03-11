@@ -9,21 +9,23 @@ public class Order {
     private final String product;
     private final Customer customer;
     private final OrderStatus status;
+    private final List<OrderItem> orderItems;
 
-    public Order(int quantity, String product, Customer customer) {
-        this(quantity,product, customer, OrderStatus.Normal, "");
+    public Order(List<OrderItem> orderItems, int quantity, String product, Customer customer) {
+        this(orderItems, quantity,product, customer, OrderStatus.Normal, "");
     }
 
-    public Order(int quantity, String product, Customer customer, String comment) {
-        this(quantity,product, customer, OrderStatus.Normal, comment);
+    public Order(List<OrderItem> orderItems, int quantity, String product, Customer customer, String comment) {
+        this(orderItems, quantity,product, customer, OrderStatus.Normal, comment);
     }
 
-    public Order(int quantity, String product, Customer customer, OrderStatus status, String comment) {
+    public Order(List<OrderItem> orderItems, int quantity, String product, Customer customer, OrderStatus status, String comment) {
         this.quantity = quantity;
         this.product = product;
         this.customer = customer;
         this.status = status;
         this.comment = comment;
+        this.orderItems = orderItems;
     }
 
     public Order(List<OrderItem> orderItems, Customer customer) {
