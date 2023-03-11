@@ -9,23 +9,32 @@ public class Order {
     private final String product;
     private final Customer customer;
     private final OrderStatus status;
-    private final List<OrderItem> orderItems;
+    private static List<OrderItem> orderItems;
 
-    public Order(List<OrderItem> orderItems, int quantity, String product, Customer customer) {
-        this(orderItems, quantity,product, customer, OrderStatus.Normal, "");
+    public Order(int quantity, String product, Customer customer, List<OrderItem> orderItems) {
+        this(quantity,product, customer, OrderStatus.Normal, "", orderItems);
     }
 
-    public Order(List<OrderItem> orderItems, int quantity, String product, Customer customer, String comment) {
-        this(orderItems, quantity,product, customer, OrderStatus.Normal, comment);
+    public Order(int quantity, String product, Customer customer, String comment, List<OrderItem> orderItems) {
+        this(quantity,product, customer, OrderStatus.Normal, comment, orderItems);
     }
 
-    public Order(List<OrderItem> orderItems, int quantity, String product, Customer customer, OrderStatus status, String comment) {
+    public Order(int quantity, String product, Customer customer, OrderStatus status, String comment, List<OrderItem> orderItems) {
         this.quantity = quantity;
         this.product = product;
         this.customer = customer;
         this.status = status;
         this.comment = comment;
-        this.orderItems = orderItems;
+        Order.orderItems = orderItems;
+    }
+
+    public Order(List<OrderItem> orderItems, Customer customer, int quantity, String product, OrderStatus status, String comment) {
+        this.quantity = quantity;
+        this.product = product;
+        this.customer = customer;
+        this.status = status;
+        this.comment = comment;
+        Order.orderItems = orderItems;
     }
 
     public Order(List<OrderItem> orderItems, Customer customer) {
@@ -35,11 +44,11 @@ public class Order {
 
 
     public Order withComment(String comment) {
-        return new Order(quantity, product, customer, status, comment);
+        return new Order(quantity, product, customer, status, comment, orderItems);
     }
 
     public Order withStatus(OrderStatus status) {
-        return new Order(quantity,product,customer, status, comment);
+        return new Order(quantity,product,customer, status, comment, orderItems);
     }
 
     public OrderStatus getStatus() {
@@ -78,7 +87,7 @@ public class Order {
         }
 
         public Order forCustomer(Customer customerName) {
-            return new Order(quantity, product, customerName);
+            return new Order(quantity, product, customerName, orderItems);
         }
     }
 

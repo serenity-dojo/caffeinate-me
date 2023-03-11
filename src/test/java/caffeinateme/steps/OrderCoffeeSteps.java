@@ -77,11 +77,10 @@ public class OrderCoffeeSteps {
                       .map(row -> new OrderItem(row.get("Product"),
                               Integer.parseInt(row.get("Quantity"))))
                 .collect(Collectors.toList());
-        this.order = new Order(orderItems,customer);
+        this.order = new Order(orderItems, customer);
     }
 
     @And("the order should contain {int} line items")
     public void theOrderShouldContainLineItems(int expectedNumberOfLineItems) {
-
     }
 }
