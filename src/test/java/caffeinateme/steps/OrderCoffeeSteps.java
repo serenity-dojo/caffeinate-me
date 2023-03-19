@@ -9,12 +9,12 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.var;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.*;
 
 public class OrderCoffeeSteps {
 
@@ -36,8 +36,13 @@ public class OrderCoffeeSteps {
 
     @ParameterType("\"(.*)\"")
     public Order order(String orderedProduct) {
-        return Order.of(1, orderedProduct).forCustomer(customer);
+        return new Order.OrderBuilder()
+                .setQuantity(1)
+                .setProduct(orderedProduct)
+                .setCustomer(customer).build();
     }
+
+
     @When("Cathy orders a {order}")
     public void cathy_orders_a(Order order) {
         this.order = order;
@@ -59,7 +64,7 @@ public class OrderCoffeeSteps {
 
     @When("Cathy orders a {order} with a comment {string}")
     public void cathy_orders_with_comment(Order order, String comment) {
-        this.order = order.withComment(comment);
+        this.order = new Order.OrderBuilder(order).setComment(comment).build();
         customer.placesAnOrderFor(order).at(coffeeShop);
     }
 
@@ -77,10 +82,14 @@ public class OrderCoffeeSteps {
                       .map(row -> new OrderItem(row.get("Product"),
                               Integer.parseInt(row.get("Quantity"))))
                 .collect(Collectors.toList());
-        this.order = new Order(orderItems, customer);
+        Order order = new Order.OrderBuilder().setOrderItems(orderItems).build();
+        order.withCustomer(customer);
+        this.order = order;
     }
 
     @And("the order should contain {int} line items")
     public void theOrderShouldContainLineItems(int expectedNumberOfLineItems) {
+        Order order = coffeeShop.getOrderFor(customer).get();
+        assertThat(order.getItems(), equalTo(expectedNumberOfLineItems));
     }
 }

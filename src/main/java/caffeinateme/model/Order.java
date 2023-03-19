@@ -9,46 +9,42 @@ public class Order {
     private final String product;
     private final Customer customer;
     private final OrderStatus status;
-    private static List<OrderItem> orderItems;
+    private final List<OrderItem> orderItems;
 
-    public Order(int quantity, String product, Customer customer, List<OrderItem> orderItems) {
-        this(quantity,product, customer, OrderStatus.Normal, "", orderItems);
-    }
-
-    public Order(int quantity, String product, Customer customer, String comment, List<OrderItem> orderItems) {
-        this(quantity,product, customer, OrderStatus.Normal, comment, orderItems);
-    }
-
-    public Order(int quantity, String product, Customer customer, OrderStatus status, String comment, List<OrderItem> orderItems) {
+    public Order(int quantity, String comment, String product, Customer customer, OrderStatus status, List<OrderItem> orderItems) {
         this.quantity = quantity;
+        this.comment = comment;
         this.product = product;
         this.customer = customer;
         this.status = status;
-        this.comment = comment;
-        Order.orderItems = orderItems;
-    }
-
-    public Order(List<OrderItem> orderItems, Customer customer, int quantity, String product, OrderStatus status, String comment) {
-        this.quantity = quantity;
-        this.product = product;
-        this.customer = customer;
-        this.status = status;
-        this.comment = comment;
-        Order.orderItems = orderItems;
-    }
-
-    public Order(List<OrderItem> orderItems, Customer customer) {
         this.orderItems = orderItems;
-        this.customer = customer;
     }
-
 
     public Order withComment(String comment) {
-        return new Order(quantity, product, customer, status, comment, orderItems);
+        return new Order(quantity,
+                comment,
+                product,
+                customer,
+                status,
+                orderItems);
     }
 
     public Order withStatus(OrderStatus status) {
-        return new Order(quantity,product,customer, status, comment, orderItems);
+        return new Order(quantity,
+                comment,
+                product,
+                customer,
+                status,
+                orderItems);
+    }
+
+    public Order withOrderList(List<OrderItem> orderItems) {
+        return new Order(quantity,
+                comment,
+                product,
+                customer,
+                status,
+                orderItems);
     }
 
     public OrderStatus getStatus() {
@@ -72,24 +68,6 @@ public class Order {
         return customer;
     }
 
-    public static OrderBuilder of(int quantity, String product) {
-        return new OrderBuilder(quantity, product);
-    }
-
-    public static class OrderBuilder {
-
-        private final int quantity;
-        private final String product;
-
-        public OrderBuilder(int quantity, String product) {
-            this.quantity = quantity;
-            this.product = product;
-        }
-
-        public Order forCustomer(Customer customerName) {
-            return new Order(quantity, product, customerName, orderItems);
-        }
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -104,5 +82,74 @@ public class Order {
     @Override
     public int hashCode() {
         return Objects.hash(quantity, product, customer);
+    }
+
+    public Order withCustomer(Customer customer) {
+        return new Order(quantity,
+                comment,
+                product,
+                customer,
+                status,
+                orderItems);
+    }
+
+    public int getItems() {
+        return getItems();
+    }
+
+
+    public static class OrderBuilder {
+        private int quantity;
+        private String comment;
+        private String product;
+        private Customer customer;
+        private OrderStatus status;
+        private List<OrderItem> orderItems;
+
+        public OrderBuilder() {
+        }
+
+        public OrderBuilder(Order order) {
+            this.quantity = order.quantity;
+            this.comment = order.comment;
+            this.product = order.product;
+            this.customer = order.customer;
+            this.status = order.status;
+            this.orderItems = order.orderItems;
+        }
+
+        public OrderBuilder setQuantity(int quantity) {
+            this.quantity = quantity;
+            return this;
+        }
+
+        public OrderBuilder setComment(String comment) {
+            this.comment = comment;
+            return this;
+        }
+
+        public OrderBuilder setProduct(String product) {
+            this.product = product;
+            return this;
+        }
+
+        public OrderBuilder setCustomer(Customer customer) {
+            this.customer = customer;
+            return this;
+        }
+
+        public OrderBuilder setStatus(OrderStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        public OrderBuilder setOrderItems(List<OrderItem> orderItems) {
+            this.orderItems = orderItems;
+            return this;
+        }
+
+        public Order build() {
+            return new Order(quantity, comment, product, customer, status, orderItems);
+        }
     }
 }
