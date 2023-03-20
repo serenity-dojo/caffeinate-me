@@ -8,6 +8,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.var;
+import org.hamcrest.Matchers;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +35,7 @@ public class OrderCoffeeSteps {
         cathy.setDistanceFromShop(distanceInMetres);
     }
 
-    @ParameterType("\"(.*)\"")
+    @ParameterType("\"[^\"]*\"")
     public Order order(String orderedProduct) {
         return new Order.OrderBuilder()
                 .setQuantity(1)
@@ -90,6 +91,7 @@ public class OrderCoffeeSteps {
     @And("the order should contain {int} line items")
     public void theOrderShouldContainLineItems(int expectedNumberOfLineItems) {
         Order order = coffeeShop.getOrderFor(customer).get();
-        assertThat(order.getItems(), equalTo(expectedNumberOfLineItems));
+        assertThat(order.getItems(),hasSize(expectedNumberOfLineItems));
     }
+
 }

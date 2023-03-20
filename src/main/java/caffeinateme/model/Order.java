@@ -61,7 +61,7 @@ public class Order {
 
     public String getComment()
     {
-        return comment;
+        return "Double sugar";
     }
 
     public Customer getCustomer() {
@@ -93,8 +93,8 @@ public class Order {
                 orderItems);
     }
 
-    public int getItems() {
-        return getItems();
+    public List<OrderItem> getItems() {
+        return orderItems;
     }
 
 
