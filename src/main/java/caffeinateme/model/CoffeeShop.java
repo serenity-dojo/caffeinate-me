@@ -5,6 +5,7 @@ import java.util.*;
 public class CoffeeShop {
 
     private Queue<Order> orders = new LinkedList<>();
+    private List<Customer> customers = new ArrayList<>();
 
     public void placeOrder(Order order, int distanceInMetres) {
         if (distanceInMetres <= 200) {
@@ -21,5 +22,12 @@ public class CoffeeShop {
         return orders.stream()
                 .filter( order -> order.getCustomer().equals(customer))
                 .findFirst();
+    }
+
+    public Customer registerNewCustomer(String customerName) {
+
+        Customer newCustomer = new Customer(customerName);
+        customers.add(newCustomer);
+        return newCustomer;
     }
 }
