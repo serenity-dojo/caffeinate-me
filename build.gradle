@@ -16,7 +16,7 @@ ext {
     slf4jVersion = '1.7.7'
     serenityCoreVersion = '3.3.10'
     serenityCucumberVersion = '3.3.10'
-    junitVersion = '4.12'
+    junitVersion = '4.13.1'
     assertJVersion = '3.22.0'
     logbackVersion = '1.2.3'
 }
