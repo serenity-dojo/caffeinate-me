@@ -1,6 +1,7 @@
 package caffeinateme.steps;
 
 import caffeinateme.model.*;
+import io.cucumber.java.DataTableType;
 import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -21,6 +22,11 @@ public class OrderCoffeeSteps {
     @ParameterType("\"[^\"]*\"")
     public Order order(String orderedProduct) {
         return Order.of(1, orderedProduct).forCustomer(cathy);
+    }
+
+    @DataTableType
+    public OrderItem orderItem(Map<String, String> row) {
+        return new OrderItem(row.get("Product"), Integer.parseInt(row.get("Quantity")));
     }
 
     @Given("{} is a CaffeinateMe customer")
@@ -62,11 +68,7 @@ public class OrderCoffeeSteps {
     }
 
     @When("Cathy places an order for the following items:")
-    public void cathyPlacesAnOrderForTheFollowingItems(List<Map<String, String>> orderItemsValues) {
-        List<OrderItem> theList = orderItemsValues.stream()
-                .map(orderRow -> new OrderItem(orderRow.get("Product"),
-                        Integer.parseInt(orderRow.get("Quantity"))))
-                .toList();
+    public void cathyPlacesAnOrderForTheFollowingItems(List<OrderItem> theList) {
 
         this.order = new Order(theList, cathy);
         coffeeShop.placeOrder(this.order);
@@ -74,6 +76,13 @@ public class OrderCoffeeSteps {
 
     @And("the order should contain {int} line items")
     public void theOrderShouldContainLineItems(int arg0) {
+    }
+
+    @And("the order should contain the following products:")
+    public void theOrderShouldContain(List<String> expectedProducts) {
+        Order order = coffeeShop.getOrderFor(cathy).get();
+        List<String> productItems = order.getItems().stream().map(OrderItem::getProduct).toList();
+        assertThat(productItems).hasSameElementsAs(expectedProducts);
     }
 
 

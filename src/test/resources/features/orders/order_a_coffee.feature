@@ -43,4 +43,6 @@ Feature: Order a coffee
         | Espresso         | 2        |
       Then Barry should receive the order
       And the order should contain 2 line items
-
+      And the order should contain the following products:
+        | Large cappuccino |
+        | Espresso         |

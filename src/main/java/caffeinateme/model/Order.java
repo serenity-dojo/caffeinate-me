@@ -73,6 +73,10 @@ public class Order {
         return new OrderBuilder(quantity, product);
     }
 
+    public List<OrderItem> getItems() {
+        return items;
+    }
+
     public static class OrderBuilder {
 
         private final int quantity;
