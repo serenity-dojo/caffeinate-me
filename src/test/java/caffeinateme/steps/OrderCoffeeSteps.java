@@ -1,14 +1,14 @@
 package caffeinateme.steps;
 
-import caffeinateme.model.CoffeeShop;
-import caffeinateme.model.Customer;
-import caffeinateme.model.Order;
-import caffeinateme.model.OrderStatus;
+import caffeinateme.model.*;
 import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
+import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -60,4 +60,21 @@ public class OrderCoffeeSteps {
                 .orElseThrow(() -> new AssertionError("No order found!"));
         assertThat(cathysOrder.getStatus()).isEqualTo(expectedStatus);
     }
+
+    @When("Cathy places an order for the following items:")
+    public void cathyPlacesAnOrderForTheFollowingItems(List<Map<String, String>> orderItemsValues) {
+        List<OrderItem> theList = orderItemsValues.stream()
+                .map(orderRow -> new OrderItem(orderRow.get("Product"),
+                        Integer.parseInt(orderRow.get("Quantity"))))
+                .toList();
+
+        this.order = new Order(theList, cathy);
+        coffeeShop.placeOrder(this.order);
+    }
+
+    @And("the order should contain {int} line items")
+    public void theOrderShouldContainLineItems(int arg0) {
+    }
+
+
 }
